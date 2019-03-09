@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<!-- servlet -->
+	<servlet>
+		<servlet-name>RegistServlet</servlet-name>
+		<servlet-class>ecut.servlet.RegistServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>RegistServlet</servlet-name>
+		<url-pattern>/regist</url-pattern>
+	</servlet-mapping>
+	
+	<!-- lifecycle -->
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>FirstServlet</servlet-name>
+		<servlet-class>ecut.lifecycle.FirstServlet</servlet-class>
+	</servlet>
+
+	<!-- 映射(发布) -->
+	<servlet-mapping>
+		<servlet-name>FirstServlet</servlet-name>
+		<url-pattern>/first</url-pattern>
+	</servlet-mapping>
+	
+
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>SecondServlet</servlet-name>
+		<servlet-class>ecut.lifecycle.SecondServlet</servlet-class>
+	</servlet>
+
+	<!-- 映射(发布) -->
+	<servlet-mapping>
+		<servlet-name>SecondServlet</servlet-name>
+		<url-pattern>/Second</url-pattern>
+		<url-pattern>/second/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>ThirdServlet</servlet-name>
+		<servlet-class>ecut.lifecycle.ThirdServlet</servlet-class>
+	</servlet>
+
+	<!-- 映射(发布) -->
+	<servlet-mapping>
+		<servlet-name>ThirdServlet</servlet-name>
+		<url-pattern>/third</url-pattern>
+	</servlet-mapping>
+
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>ForthServlet</servlet-name>
+		<servlet-class>ecut.lifecycle.ForthServlet</servlet-class>
+	</servlet>
+
+	<!-- 映射(发布) -->
+	<servlet-mapping>
+		<servlet-name>ForthServlet</servlet-name>
+		<url-pattern>/forth</url-pattern>
+	</servlet-mapping>
+
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>LifeCycleServlet</servlet-name>
+		<servlet-class>ecut.lifecycle.LifeCycleServlet</servlet-class>
+		<!-- 当容器 加载当前的WEB应用时就完成对 该 Servlet 的类加载、实例化、初始化操作 -->
+		<!-- 数字代表加载优先级，默认值-1访问再加载 -->
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+	<!-- 映射(发布) -->
+	<servlet-mapping>
+		<servlet-name>LifeCycleServlet</servlet-name>
+		<url-pattern>/cycle</url-pattern>
+	</servlet-mapping>
+
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>ConfigurationServlet</servlet-name>
+		<servlet-class>ecut.lifecycle.ConfigurationServlet</servlet-class>
+		<!-- 指定初始化参数 -->
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>content-type</param-name>
+			<param-value>text/html</param-value>
+		</init-param>
+	</servlet>
+
+	<!-- 映射(发布) -->
+	<servlet-mapping>
+		<servlet-name>ConfigurationServlet</servlet-name>
+		<url-pattern>/config</url-pattern>
+	</servlet-mapping>
+
+	<!--request -->
+	<servlet>
+		<servlet-name>ParseRequestServlet</servlet-name>
+		<servlet-class>ecut.request.ParseRequestServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ParseRequestServlet</servlet-name>
+		<url-pattern>/parse</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>FirstUploadServlet</servlet-name>
+		<servlet-class>ecut.request.FirstUploadServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>FirstUploadServlet</servlet-name>
+		<url-pattern>/upload/first</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SecondUploadServlet</servlet-name>
+		<servlet-class>ecut.request.SecondUploadServlet</servlet-class>
+
+		<!-- 启用 Servlet 3.x 所支持的文件上传方式 -->
+		<multipart-config>
+			<location>D:/files/</location>
+		</multipart-config>
+		<!-- location 指定的是文件上传后的存储位置 -->
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>SecondUploadServlet</servlet-name>
+		<url-pattern>/upload/second</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ThirdUploadServlet</servlet-name>
+		<servlet-class>ecut.request.ThirdUploadServlet</servlet-class>
+
+		<!-- 启用 Servlet 3.x 所支持的文件上传方式 -->
+		<multipart-config>
+			<location>D:/files/</location>
+		</multipart-config>
+		<!-- location 指定的是文件上传后的存储位置 -->
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ThirdUploadServlet</servlet-name>
+		<url-pattern>/upload/third</url-pattern>
+	</servlet-mapping>
+	
+	<!--  Context -->
+	<!-- 为 ServletContext 指定的 初始化参数  -->
+	<context-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>WebApplicationServlet</servlet-name>
+		<servlet-class>ecut.context.servlet.WebApplicationServlet</servlet-class>
+		<!--  这里的初始化参数是为  当前的 Servlet 提供的 (通过当前Servlet对应的 ServletConfig 可以获取这些参数值)
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		-->
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>WebApplicationServlet</servlet-name>
+		<url-pattern>/web/application</url-pattern>
+	</servlet-mapping>
+	
+	<!--filter -->
+	<!-- 先写 listener , 再写 filter ，最后写 servlet -->
+	<filter>
+		<filter-name>HelloFilter</filter-name>
+		<filter-class>ecut.filter.filter.HelloFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>HelloFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>ecut.filter.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>IdentifyBrowserFilter</filter-name>
+		<filter-class>ecut.filter.filter.IdentifyBrowserFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>IdentifyBrowserFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<servlet>
+		<servlet-name>HelloServlet</servlet-name>
+		<servlet-class>ecut.filter.servlet.HelloServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>HelloServlet</servlet-name>
+		<url-pattern>/filter/hello</url-pattern>
+	</servlet-mapping>
+	
+	<!--listener -->
+	<!--display-name（不是listener的子标记）标记设置ServletContextName -->
+	<display-name>listener</display-name>
+
+	<listener>
+		<listener-class>ecut.listener.listener.ApplicationLifecycleListener</listener-class>
+	</listener>
+	
+	
+	<listener>
+		<listener-class>ecut.listener.listener.SessionLifecycleListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>ecut.listener.listener.RequestLifecycleListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>ecut.listener.listener.ApplicationAttributeListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>ecut.listener.listener.SessionAttributeListener</listener-class>
+	</listener>
+	
+	<!-- 
+	<servlet>
+		<servlet-name>ShowSessionIdServlet</servlet-name>
+		<servlet-class>org.malajava.servlet.ShowSessionIdServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ShowSessionIdServlet</servlet-name>
+		<url-pattern>/session/show</url-pattern>
+	</servlet-mapping>
+ 	-->
+</web-app>

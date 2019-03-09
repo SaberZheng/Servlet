@@ -1,0 +1,73 @@
+
+请在工程的 src 目录下 创建 jdbc.xml 文件，并在其中添加 ~~~ 线之间的内容。
+
+<config> 标签 的 id 属性 用来指定 数据库名称，可以根据实际情况指定
+
+<config> 标签 的 use 属性 用来指定 是否要连接 该数据库，如果是 true 则表示准备连接该数据库
+
+<jdbc-config> 内部 可以提供 多个 <config> ，那个 <config> 的 use 是 true 就连接那一个数据库
+
+如果 <jdbc-config> 内部 有多个 use 属性值为 true 的  <config> ，则选择任意选择其中一个，
+因此请尽量保证只有一个 <config> 的 use 属性是 true 。
+
+<url> 用来确定 数据库连接的 URL
+<driver> 用来指定数据库驱动类
+<username> 用来指定数据库用户名
+<password> 用来指定需要连接的数据库的用户名对应的密码
+
+<auto-commit> 用来指定是否自动提交事务，true 表示自动提交，false 表示不自动提交
+
+<isolation> 用来指定事务隔离级别，可以是以下几种取值:
+ *  DEFAULT 采用与数据库中事务隔离级别相一致的隔离级别
+ *  NONE 不支持事务，等同于 Connection.TRANSACTION_NONE 
+ *  READ_UNCOMMITTED 读未提交，等同于 Connection.TRANSACTION_READ_UNCOMMITTED
+ *  READ_COMMITTED 读已提交，等同于 Connection.TRANSACTION_READ_COMMITTED
+ *  REPEATABLE_READ  可重复读，等同于 Connection.TRANSACTION_REPEATABLE_READ
+ *  SERIALIZABLE 序列化，等同于 Connection.TRANSACTION_SERIALIZABLE
+ 
+ 隔离级别中的各个单词不区分大小写。
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE jdbc-config [ 
+	<!ELEMENT jdbc-config ( config+ ) >
+	
+	<!ELEMENT config ( url , driver , username , password , auto-commit , isolation ) >
+		<!ATTLIST config id CDATA #REQUIRED> 
+		<!ATTLIST config use (true|false) #REQUIRED> 
+	
+	<!ELEMENT url (#PCDATA) >
+	<!ELEMENT driver (#PCDATA) >
+	<!ELEMENT username (#PCDATA) >
+	<!ELEMENT password (#PCDATA) >
+	<!ELEMENT auto-commit (#PCDATA) >
+	<!ELEMENT isolation (#PCDATA) >
+
+]>
+
+<jdbc-config>
+
+	<config id="mysql" use="true" >
+		<url>jdbc:mysql://127.0.0.1:3306/jdbc?useUnicode=true&amp;characterEncoding=utf8</url>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<username>root</username>
+		<password>root</password>
+		<auto-commit>false</auto-commit>
+		<isolation>READ_COMMITTED</isolation>
+	</config>
+	
+	<config id="oracle" use="false" >
+		<url>jdbc:oracle:thin:@1.0.0.2:1521:malajava</url>
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<username>malajava</username>
+		<password>hello2014</password>
+		<auto-commit>false</auto-commit>
+		<isolation>REPEATABLE_READ</isolation>
+	</config>
+	
+</jdbc-config>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

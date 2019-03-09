@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Servlet Life Cycle</title>
+</head>
+<body>
+
+	<h3>Servlet的实现方式:</h3>
+	
+	<h5>1、实现 javax.servlet.Servlet 接口 ( 最底层，最原始 ) </h5>
+	<form action="/Servlet/first" method="post">
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+	
+	<h5>2、继承 javax.servlet.GenericServlet 类，实现 service 方法</h5>
+	<form action="/Servlet/second" method="post">
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+	
+	<form action="/Servlet/second/abc" method="post">
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+	
+	<form action="/Servlet/second/xyz/abc" method="post">
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+	
+	<h5>3、继承 javax.servlet.http.HttpServlet 类 ，重写 doGet 和 doPost 方法</h5>
+	<form action="/Servlet/third" method="get">
+		GET: 
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+	<form action="/Servlet/third" method="post">
+		POST: 
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+	
+	<h5>4、继承 javax.servlet.http.HttpServlet 类 ，重写 service( HttpServletRequest , HttpServletResponse ) 方法</h5>
+	<form action="/Servlet/forth" method="get">
+		GET: 
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+	<form action="/Servlet/forth" method="post">
+		POST: 
+		<input type="text" name="username" placeholder="用户名">
+		<input type="password" name="password" placeholder="密码">
+		<input type="submit" value="提交" >
+	</form>
+
+</body>
+</html>

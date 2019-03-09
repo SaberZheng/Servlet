@@ -1,0 +1,106 @@
+
+Servlet 3.x 支持使用注解:
+
+
+		javax.servlet.annotation.WebServlet 用来标注一个 Servlet 类型
+		
+		@WebServlet( "/first" )
+		
+		@WebServlet( value = "/first" )
+		
+		@WebServlet( value = { "/first" } )
+		
+		@WebServlet( urlPatterns = "/first" )
+		
+		@WebServlet( urlPatterns = { "/first" } )
+		
+		@WebServlet( value = "/first" , loadOnStartup = 1  )
+		
+		@WebServlet( value = { "/first" , "/resp/first" , "/f" } )
+		
+		@WebServlet( { "/first" , "/resp/first" , "/f" } )
+
+
+
+HTTP 响应的构成 ( PPT 11 )
+
+	HTTP 响应行:
+	
+		协议
+		
+		状态
+		
+		描述
+	
+	HTTP 响应报头: (头部/首部/响应头)
+	
+		Server : Apache Tomcat / 6.0.29
+		Date : Tue, 19 Jul 2011 14:33:03 GMT
+		Content-Type : text/html
+		Last-Modified : Tue, 19 Jul 2011 14:03:23 GMT
+		Content-Length : 112
+	
+	空行
+	
+	HTTP 响应正文:
+	
+		响应正文可以是 HTML 、CSS 、 JavaScript 、TXT ....
+		
+			response.getWriter();
+		
+		响应正文可以是也可以是 二进制文件，比如 mp4 、mp3 、jpeg 、gif 、doc 、pdf
+		
+			response.getOutputStream();
+	
+
+HttpServletResponse ( P57 ) :
+
+		与响应状态有关的方法:
+		
+		void  sendError( int statusCode , String statusMessage )
+
+
+		与响应报头有关的方法:
+
+		void  setHeader( String name , String value ) 设置响应报头的通用方法
+
+		boolean  containsHeader( String name )  判断指定名称的响应报头是否存在，存在即返回true
+		
+		void setContentType( String mimeType ) 相当于 setHeader( "content-type" , mimeType )
+		
+		void addCookie( Cookie cookie )  在 响应报头中 添加 一个 Cookie ( 在 set-cookie 报头中追加一个 cookie 值 ，相当于 setHeader( "set-cookie" , value ))
+		
+		
+
+
+常用的 MIME(Multipurpose Internet Mail Extension) 类型:
+
+		application/octet-stream 未识别 或 二进制数据
+		
+		application/pdf   PDF 文档
+		
+		video/mpeg    MPEG 视频文件
+		
+		image/gif   动态图片
+		
+		image/jpeg  照片图片( .jpeg 、.jpg )
+		
+		image/png   透明图片
+		
+		text/html   HTML文档
+		
+		text/plain  纯文本文档
+		
+		text/css   CSS样式
+		
+		text/javascript  JavaScript 脚本代码
+		
+		text/xml  XML 文档
+		
+		text/json   JSON 格式的文本 ( JSON : JavaScript Object Notation )
+		
+		
+
+
+
+		

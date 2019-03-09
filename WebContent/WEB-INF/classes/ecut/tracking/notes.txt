@@ -1,0 +1,79 @@
+会话(交谈)
+客户端和服务器的通讯
+web客户端 A ------>Tomcat
+web客户端 B ------>Tomcat
+
+会话追踪
+一 个客户端可以发起多次请求，对多次请求进行追踪
+web客户端 A ------>Tomcat
+first request -------> response
+second request -------> response
+
+进行会话追踪的原因
+http是无状态的协议，不记录用户的信息（是否登录）
+
+会话追踪技术:
+
+【 Cookie 】
+
+	Cookie 是由服务器创建 
+	通过响应报头发送给WEB客户端
+	存储在WEB客户端
+	通过请求报头回传给服务器
+	
+	例子: 登录
+
+【 Session 】
+
+	在 Java EE 规范中用 HttpSession 表示 会话
+	
+	Session 的本质 是 在 WEB 容器内 ( Tomcat ) 划分一块内存存放跟某个用户关联的数据
+	
+	每个 WEB 客户端在同一时刻只能对应一个 Session ( 同一时刻，客户端持有的编号与 Session 编号必须一致 )
+	
+	例子: 登录
+	
+		登录: 
+		1、输入用户名和密码
+		2、点击登录 ，验证 用户名 和 密码 是否正确
+		3、如果 用户名 或 密码不正确，给出提示，并重新输入
+		4、如果 用户名 和 密码 都正确，
+			 则 将用户的信息存储到 当前会话中 ( 目的是让当前客户端的多次请求都能获取到该用户的信息 )
+			 
+			 注: 用户的信息一般以 对象的形式 存储到 会话 中，而不是仅仅存储一个用户名
+	
+	HttpSession 中的方法:
+	
+		String  getId() 返回 当前的 session 对象的 编号 ( 默认与客户端的 jsessionid 对应 )
+		
+		boolean  isNew() 判断当前的 session 对象是否是新创建的，如果是新创建的就返回 true ，否则就是 false
+		
+		void setAttribute( String name , Object value ) 将 name - value 对 保存到 session 对象中
+		
+		Object getAttribute( String name ) 根据 指定的 属性名称 获得相应的取值 
+		
+		void removeAttribute( String name ) 从 session 对象中移除指定属性名称对应的 name-value 对
+	
+【 URL Rewrite ( URL 重写 ) 】
+
+		参数 url 需要从 当前 WEB 应用对应的路径开始，比如 /tracking/urlrewrite/action/login
+		
+		重写前: /tracking/urlrewrite/action/login 
+		
+		重写后: /tracking/urlrewrite/action/login;jsessionid=XXXXXXXXXXXXXXXXX
+
+		response.encodeURL( String url )
+		
+		response.encodeRedirectURL( String url )
+		
+		http://localhost:8080/tracking/urlrewrite/action/login?hello=world
+		
+		http://localhost:8080/tracking/urlrewrite/action/login;jsessionid=XXXXXXXXXXXXXXXXX?hello=world
+		
+		适用场景: 
+		
+			客户端的 Cookie 被禁用时可以使用 URL 重写来实现会话追踪
+
+【 隐藏表单域 ( type="hidden" ) 】
+
+

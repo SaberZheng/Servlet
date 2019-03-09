@@ -1,0 +1,110 @@
+
+
+Redirect ( 重定向 ) :
+
+	地址栏: 从第一个被请求的地址 变成 第二个请求对应的地址
+	
+	客户端发起两次请求:
+		
+		第一次请求由 "用户" 主动发起
+		
+		第二次请求是由于 浏览器接受到了 来自服务器的 "指示"所以重新发起请求
+	
+	重定向通过 response.sendRedirect( location ) 来实现 
+	
+Forward ( 转发 )
+
+	地址栏: 所请求的路径不会发生变化
+	
+	客户端仅发起一次请求，服务器内部完成对请求的组件的调度
+	
+		在 /page/login 对应的页面的登录表单:
+		
+			<form ation = request.getContextPath() +  "/action/login"  >
+		
+		因此点击登陆按钮后会请求 /action/login  ，
+		
+		而在 /action/login 对应的 Servlet 中:
+		
+			RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/dispatch/login_success.html" );
+			dispatcher.forward( request , response );
+		
+	  转发通过非静态方法 RequestDispatcher.forward( ServletRequest , ServletResposne ) 方法来实现
+	  
+		在 转发操作中 ，第一个组件的 request 和 response 被传递给 第二个组件继续使用:
+		
+			@WebServlet( "/action/login" )
+			public class LoginActionServlet extends HttpServlet {
+				@Override
+				protected void service( HttpServletRequest request , HttpServletResponse response ) 
+						throws ServletException, IOException {
+						
+						// 可以将 request 当作 Map< String , Object > 来使用 , map.put( "counter" , 250 );
+						request.setAttribute( "counter" ,  250 ); 
+						response.setHeader( "suibian" ,  "abcxyz" );
+			
+						RequestDispatcher dispatcher = request.getRequestDispatcher( "/forward/login/success" );
+						dispatcher.forward( request , response );
+						
+				}
+			}
+			
+			@WebServlet( "/forward/login/success" )
+			public class LoginSuccessServlet extends HttpServlet {
+				@Override
+				protected void service( HttpServletRequest request , HttpServletResponse response ) 
+						throws ServletException, IOException {
+						
+						// 可以将 request 当作 Map< String , Object > 来使用 , map.get( "counter" )
+						Object value = request.getAttribute( "counter" ); 
+						System.out.println( "request attribute : " + value );
+						
+						System.out.println( "response header exists : " + response.containsHeader( "suibian" ) );
+						
+						// 可以在 该 Servlet 中向  客户端 发送 HTML 文档
+	
+				}
+			}
+
+
+Include ( 包含 )
+		可以使代码复用
+		RequestDispatcher dispatcher = request.getRequestDispatcher( "/header.jsp" );
+		dispatcher.include( request , response ) ;
+
+
+
+根据 Java EE 规范，所有的存放在 WEB-INF 目录中的资源都是不能被直接访问的，
+为了能够访问这些资源，就需要用到服务器内部的 转发行为 ( forward ) 。
+
+针对表单，为了避免表单的重复提交，可以在表单提交后，使用 重定向 对请求进行调度。
+
+
+
+	重定向通过 response.sendRedirect( location ) 来实现 
+	 转发通过非静态方法 RequestDispatcher.forward( ServletRequest , ServletResposne ) 方法来实现
+	 响应有去无回
+	 web client ---->  A(request,response)
+	 				   A:forward(request,response)
+	 				   B(request,response)  	 --------->web client 
+	 包含通过非静态方法 RequestDispatcher.include( ServletRequest , ServletResposne ) 方法来实现
+	 响应有去有回
+	 web client ---->  A(request,response)  --------->web client 
+	 				   A:include(request,response)
+	 				    ^
+	 				    |
+	 				    |
+	 				    |
+	 				    |
+	 				    |
+	 				   B(request,response)  	 
+	 
+ 
+
+
+
+
+
+
+
+	

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Request</title>
+</head>
+<body>
+
+	<a href="/Servlet/parse?username=Amy&password=123456" >访问 ParseRequestServlet</a>
+	
+	<h5>GET</h5>
+	<form action="/Servlet/parse" method="get" >
+		<input type="text" name="username" placeholder="用户名">
+		<br>
+		性别: 
+		<input type="radio" name="gender" value="女"> 我是靓女
+		<input type="radio" name="gender" value="男"> 我是靓仔 <br>
+		爱好:
+		<input type="checkbox" name="hobby" value="eat">吃饭 
+		<input type="checkbox" name="hobby" value="sleep">睡觉 
+		<input type="checkbox" name="hobby" value="wc">上厕所
+		<br>
+		<input type="submit" value="提交">
+	</form>
+	
+	<h5>POST</h5>
+	<form action="/Servlet/parse" method="post" >
+		<input type="text" name="username" placeholder="用户名">
+		<br>
+		性别: 
+		<input type="radio" name="gender" value="女"> 我是靓女
+		<input type="radio" name="gender" value="男"> 我是靓仔 <br>
+		爱好:
+		<input type="checkbox" name="hobby" value="eat">吃饭 
+		<input type="checkbox" name="hobby" value="sleep">睡觉 
+		<input type="checkbox" name="hobby" value="wc">上厕所
+		<br>
+		<input type="submit" value="提交">
+	</form>
+	
+	<h5>文件上传(古代)</h5>
+	<!-- method 必须是 POST ，enctype 必须是 multipart/form-data enctype默认是对数据进行 application/x-www-form-urlencoded编码-->
+	<form action="/Servlet/upload/first" method="post"  enctype="multipart/form-data">
+		<input type="file" name="upfile" >
+		<input type="submit" value="上传" >
+	</form>
+	
+	<h5>文件上传( 从 Servlet 3.0 开始 )</h5>
+	<!-- method 必须是 POST ，enctype 必须是 multipart/form-data -->
+	<form action="/Servlet/upload/second" method="post"  enctype="multipart/form-data">
+		<input type="file" name="upfile" >
+		<input type="submit" value="上传" >
+	</form>
+	
+	<h5>文件上传( 从 Servlet 3.0 开始 )</h5>
+	<!-- method 必须是 POST ，enctype 必须是 multipart/form-data -->
+	<form action="/Servlet/upload/third" method="post"  enctype="multipart/form-data">
+		<input type="file" name="upfile1" > 
+		<br>
+		<input type="file" name="upfile2" > 
+		<br>
+		<input type="file" name="upfile3" > 
+		<br>
+		<input type="file" name="upfile4" > 
+		<br>
+		<input type="submit" value="上传" >
+	</form>
+
+</body>
+</html>

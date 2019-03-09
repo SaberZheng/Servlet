@@ -1,0 +1,26 @@
+
+
+在 需要使用 CharacterEncodingFilter 的 Web 工程的 web.xml 中增加以下配置:
+
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.malajava.util.filter.CharacterEncodingFilter</filter-class>
+		
+		<init-param>
+			<param-name>encoding</param-name>
+			<!-- 通过初始化参数值 来确定编码名称，如果没有指定，则默认为UTF-8-->
+			<param-value>UTF-8</param-value>
+		</init-param>
+		
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<!-- 通过 dispatcher 来指定过滤类型( 根据需要 增加或删除即可 ) -->
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>

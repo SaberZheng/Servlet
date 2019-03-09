@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE jdbc-config [ 
+	<!ELEMENT jdbc-config ( config+ ) >
+	
+	<!ELEMENT config ( url , driver , username , password , auto-commit , isolation ) >
+		<!ATTLIST config id CDATA #REQUIRED> 
+		<!ATTLIST config use (true|false) #REQUIRED> 
+	
+	<!ELEMENT url (#PCDATA) >
+	<!ELEMENT driver (#PCDATA) >
+	<!ELEMENT username (#PCDATA) >
+	<!ELEMENT password (#PCDATA) >
+	<!ELEMENT auto-commit (#PCDATA) >
+	<!ELEMENT isolation (#PCDATA) >
+
+]>
+
+<!-- 
+ DEFAULT : 采用与数据库中事务隔离级别相一致的隔离级别
+ NONE : Connection.TRANSACTION_NONE
+ READ_UNCOMMITTED : Connection.TRANSACTION_READ_UNCOMMITTED
+ READ_COMMITTED : Connection.TRANSACTION_READ_COMMITTED
+ REPEATABLE_READ : Connection.TRANSACTION_REPEATABLE_READ
+ SERIALIZABLE : Connection.TRANSACTION_SERIALIZABLE
+ -->
+
+<jdbc-config>
+
+	<config id="mysql" use="true" >
+		<url>jdbc:mysql://127.0.0.1:3306/jdbc?useUnicode=true&amp;characterEncoding=utf8</url>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<username>root</username>
+		<password>123456</password>
+		<auto-commit>false</auto-commit>
+		<isolation>READ_COMMITTED</isolation>
+	</config>
+	
+	<config id="oracle" use="false" >
+		<url>jdbc:oracle:thin:@1.0.0.2:1521:oracle</url>
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<username>Amy</username>
+		<password>123456</password>
+		<auto-commit>false</auto-commit>
+		<isolation>REPEATABLE_READ</isolation>
+	</config>
+	
+</jdbc-config>

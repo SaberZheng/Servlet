@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+h2 {
+	text-align: center; 
+}
+
+h2:first-child {
+	color: red ;
+	font-weight: bold ;
+}
+
+h2:last-child {
+	color: blue ;
+}

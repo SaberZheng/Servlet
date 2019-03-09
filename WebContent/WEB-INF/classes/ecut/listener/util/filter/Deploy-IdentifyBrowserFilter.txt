@@ -1,0 +1,75 @@
+
+IdentifyBrowserFilter 是一个针对浏览器进行筛选过滤的过滤器
+
+1、根据提供的配置文件(比如 browser.properties 文件)中的配置，对浏览器进行检查
+     如果是配置文件中提供的浏览器，则允许 访问，否则一律禁止访问。
+     
+     配置文件的名称，可用在 Filter 的初始化参数中进行设置，不一定非要是 browser.properties ，比如:
+     
+     <init-param>
+     	<!-- 这个 browserConfigLocation 是 过滤器中需要获取的初始化参数的名称，必须写作 browserConfigLocation (不能更换)-->
+		<param-name>browserConfigLocation</param-name>
+		<!-- 这里的 allowed.properties 就是你自己的配置文件，需要放在工程的 src 目录中(编译后在类路径下) -->
+		<param-value>allowed.properties</param-value>
+	 </init-param>
+	 
+	 如果没有指定 browserConfigLocation 这个初始化参数，则默认是 browser.properties 
+	 
+	 特别注意，不要在 browser.properties 配置文件中添加 IE 和 Edge ，放弃这两个浏览器
+	 
+	 你的 browser.properties 文件中应该是这样的:
+	 chrome = 45
+	 firefox = 45
+	 safari = 9
+	 
+	 其中:
+	 chrome 表示 Google Chrome 内核 的浏览器
+	 firefox 表示 Mozilla FireFox 内核 的浏览器
+	 safari 表示 苹果系统下的 Safari 浏览器
+	 等号后面的是最低版本号，请写数字
+	 
+     
+2、对于不在 配置文件(比如 browser.properties 文件) 中包含的浏览器，
+      需要提供一个允许他们访问的访问的路径，
+      以便于让使用这些浏览器(比如IE)的用户能够下载我们允许访问的浏览器。
+      这个允许访问的路径，可用在 过滤器 的初始化参数中予以配置，比如:
+      
+      <init-param>
+      		<!-- 这个 allowedAccess 是 过滤器中需要获取的初始化参数的名称，必须写作 allowedAccess (不能更换)-->
+			<param-name>allowedAccess</param-name>
+			<!-- 这里的 /released 就是允许 哪些被禁止访问的浏览器 可以访问的路径，该目录 与 WEB-INF 是同一级，其中有 页面及相关的CSS、JS、图片等文件 -->
+			<param-value>/released</param-value>
+	 </init-param>
+	 
+	 如果没有指定 allowedAccess 这个初始化参数，则默认是 /allowed 
+	 
+	 特别注意: 
+	 i>、你需要在 allowedAccess 参数配置的路径下提供 一个 index.html 或 index.jsp 页面
+	 ii>、你指定的 allowedAccess 参数的值，必须以 / 开头，并且 这个目录必须放在与WEB-INF同一级的目录中
+      
+ 
+ 一份完整的配置可以是这样的:
+ 
+ 	<filter>
+		<filter-name>IdentifyBrowserFilter</filter-name>
+		<filter-class>org.malajava.util.filter.IdentifyBrowserFilter</filter-class>
+		<init-param>
+	     	<!-- 这个 browserConfigLocation 是 过滤器中需要获取的初始化参数的名称，必须写作 browserConfigLocation (不能更换)-->
+			<param-name>browserConfigLocation</param-name>
+			<!-- 这里的 browser.properties 就是你自己的配置文件，需要放在工程的 src 目录中(编译后在类路径下) -->
+			<param-value>browser.properties</param-value>
+		 </init-param>
+		 <init-param>
+      		<!-- 这个 allowedAccess 是 过滤器中需要获取的初始化参数的名称，必须写作 allowedAccess (不能更换)-->
+			<param-name>allowedAccess</param-name>
+			<!-- 这里的 /released 就是允许 哪些被禁止访问的浏览器 可以访问的路径，该目录 与 WEB-INF 是同一级，其中有 页面及相关的CSS、JS、图片等文件 -->
+			<param-value>/released</param-value>
+	 	</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>IdentifyBrowserFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+ 
+

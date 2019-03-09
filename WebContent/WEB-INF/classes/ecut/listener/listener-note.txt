@@ -1,0 +1,144 @@
+
+从 Servlet 2.3 开始 提供 对 Web 服务器 内部的 事件进行监听的支持:
+
+
+【跟生命周期有关的监听器】
+
+	  javax.servlet.ServletContextListener :
+	  
+	  		public void contextInitialized( ServletContextEvent event )
+	  		
+	  			当 容器 加载 ( deploy ) 一个 应用 ( "web application" ) 时 呼叫 contextInitialized
+	  			
+	  			传入的事件对象是 ServletContextEvent
+	  		
+	  		public void contextDestroyed( ServletContextEvent event )
+	  		
+	  			当 容器 卸载 ( undeploy ) 一个 应用 ( "web application" ) 时 呼叫 contextDestroyed
+	  			
+	  			传入的事件对象是 ServletContextEvent
+	  
+	  javax.servlet.http.HttpSessionListener :
+	  
+	  		public void sessionCreated( HttpSessionEvent event )
+	  		
+	  			当 创建 会话 对象时，呼叫 sessionCreated
+	  		
+	  		public void sessionDestroyed( HttpSessionEvent event )
+	  		
+	  			当 销毁 会话 对象时，呼叫 sessionDestroyed
+	  			
+	  			销毁 会话对象的时机 : session 的 有效期 到了 、调用 session.invalidate()
+	  			
+	  			可以在 web.xml 中配置 session 的有效期:
+	  				    <session-config>
+					        <session-timeout>30</session-timeout>
+					    </session-config>
+				注意，这里的有效期的时间的单位是 分钟
+	  		
+	  javax.servlet.ServletRequestListener :
+	  
+	  		public void requestInitialized(ServletRequestEvent event) 
+	  		
+	  			 当 客户端 发起请求时，即创建 请求对象 ，此时 呼叫 requestInitialized
+	  		
+	  		public void requestDestroyed(ServletRequestEvent event)
+	  		
+	  			当 请求 结束时 ( 响应数据已经全部返回到客户端 ) ，呼叫 requestDestroyed
+	  	
+	  		
+【跟 属性 操作 有关的监听器】
+
+		javax.servlet.ServletContextAttributeListener :
+		
+			void	attributeAdded( ServletContextAttributeEvent event )
+			
+					向 ServletContext 中添加一个不存在的 属性时 呼叫 attributeAdded
+					
+					ServletContext application = request.getServletContext();
+					application.setAttribute( "counter"  , 0 ) ; // 假设 application 中 根本就没有 counter ，这是首次添加 counter
+			
+			void	attributeReplaced( ServletContextAttributeEvent event )
+			
+					当 ServletContext 中已经包含 某个名称的属性时，
+					又通过 setAttribute 来设置 设个属性值，则构成 替换操作，此时呼叫 attributeReplaced
+					
+					ServletContext application = request.getServletContext();
+					application.setAttribute( "counter"  , 1 ) ; // 替换某个属性的值时，呼叫 attributeReplaced
+			
+			void	attributeRemoved( ServletContextAttributeEvent event )
+			
+					当从 ServletContext 移除 某个名称的 属性时 呼叫 attributeRemoved
+			
+		javax.servlet.http.HttpSessionAttributeListener : 监听 session 对象中的 属性变化的监听器
+		
+			void	attributeAdded( HttpSessionBindingEvent event )
+			
+			void	attributeReplaced( HttpSessionBindingEvent event )
+			
+			void	attributeRemoved( HttpSessionBindingEvent event )
+			
+		
+		javax.servlet.ServletRequestAttributeListener  : 监听 request 对象中的 属性变化的监听器
+		
+			void	attributeAdded( ServletRequestAttributeEvent srae )		
+			
+			void	attributeReplaced( ServletRequestAttributeEvent srae )
+			
+			void	attributeRemoved(ServletRequestAttributeEvent srae)
+
+
+【 跟 Session 钝化 和 锐化 有关的监听器 】
+
+		javax.servlet.http.HttpSessionActivationListener :
+		
+			void	sessionWillPassivate( HttpSessionEvent event )
+			
+				Passivate ( 钝化 )
+				
+					当 有客户端 关联的 Session 存在，并且 Session 中有数据时，
+					如果此时 重新加载 当前Web应用，将导致 Session 中的数据被丢失，
+					为了保存这部分数据，容器 可能会将 Session 对象中的数据 保存到 磁盘 、网络 等存储设备中，
+					这种行为 称作 Session 的 钝化
+		
+			void	sessionDidActivate( HttpSessionEvent event )
+			
+				Activate ( 锐化 )
+				
+					从 硬盘或其它存储设备上的文件中重新读回 Session 数据，重新加载到 JVM 所管理的 内存中 的动作
+			
+【跟 属性值 绑定到 Session 有关的监听器】
+
+		javax.servlet.http.HttpSessionBindingListener
+		
+			void	valueBound( HttpSessionBindingEvent event )
+			
+			void	valueUnbound( HttpSessionBindingEvent event )
+
+		假设 将要 添加到 session 中的 属性值 的类型是 Customer 类型
+		
+			Customer c = new Customer();
+			
+			session.setAttribute( "customer" , c ) ; // 将 Customer 类型的 对象 绑定到 session 的属性值中
+			
+			session.removeAttribute( "customer" ) ; // 解除 Customer 类型的 对象 跟 session 的绑定
+	
+		为了监听 Customer 对象 跟 session 是否 发生关系，则需要 将 Customer 本身 做成是 监听器
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

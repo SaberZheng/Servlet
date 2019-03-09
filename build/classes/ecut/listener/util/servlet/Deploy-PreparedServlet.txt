@@ -1,0 +1,29 @@
+
+
+在 需要使用 PreparedServlet 的 Web 工程的 web.xml 中增加以下配置:
+
+	<servlet>
+		<servlet-name>PreparedServlet</servlet-name>
+		<servlet-class>org.malajava.util.servlet.PreparedServlet</servlet-class>
+
+		<init-param>
+			<param-name>contextPathName</param-name>
+			<!-- 如果指定参数值是 path , 则完成以下操作:  application.setAttribute( "path" , contextPath )-->
+			<param-value>path</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>frontPathName</param-name>
+			<!-- 如果指定参数值是 path ，则向Web客户端发送: window.path="/当前Web应用的路径"-->
+			<param-value>path</param-value>
+		</init-param>
+		
+		<!-- PreparedServlet 必须在 容器启动时就完成初始化操作-->
+		<load-on-startup>1</load-on-startup>
+		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>PreparedServlet</servlet-name>
+		<url-pattern>/prepared.js</url-pattern>
+	</servlet-mapping>
