@@ -26,7 +26,6 @@ public class CounterServlet extends HttpServlet {
 		PrintWriter w = response.getWriter();
 		
 		HttpSession session = request.getSession();
-		
 		// 1、先尝试从 session 中获取一个名称是 counter 的属性值
 		Integer sessionCounter = (Integer)session.getAttribute( "counter" );
 		// 2、判断 sessionCounter 是否是不存在的
